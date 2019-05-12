@@ -1,0 +1,14 @@
+"","rfN.Prop..Rem.","rfN.Num..Rem","rfN.Med..Time"
+"Start>methotrexaat>hydroxychloroquine&methotrexaat",0.555555555555556,5,356
+"Start>methotrexaat",0.584905660377358,31,253
+"Start>sulfasalazine",0.4,2,225.5
+"Start>methotrexaat>hydroxychloroquine",1,1,1449
+"Start>hydroxychloroquine",0.666666666666667,4,130.5
+"Start>sulfasalazine>hydroxychloroquine&sulfasalazine>sulfasalazine",1,1,200
+"Start>methotrexaat>hydroxychloroquine&methotrexaat>hydroxychloroquine",1,1,781
+"Start>leflunomide>etanercept&leflunomide",1,1,399
+"Start>methotrexaat>hydroxychloroquine&methotrexaat&sulfasalazine>methotrexaat&sulfasalazine>sulfasalazine",1,1,331
+"Start>methotrexaat>hydroxychloroquine&methotrexaat&sulfasalazine",0.5,1,538
+"Start>methotrexaat>sulfasalazine",1,1,147
+"Start>methotrexaat>methotrexaat&sulfasalazine>hydroxychloroquine&methotrexaat&sulfasalazine>hydroxychloroquine&methotrexaat>hydroxychloroquine&leflunomide&methotrexaat",1,1,582
+"Start>sulfasalazine>methotrexaat&sulfasalazine",1,1,423

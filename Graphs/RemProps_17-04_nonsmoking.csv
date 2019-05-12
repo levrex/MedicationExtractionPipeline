@@ -1,0 +1,10 @@
+"","nonsmoking.Prop..Rem.","nonsmoking.Num..Rem","nonsmoking.Med..Time"
+"Start>methotrexaat>leflunomide&methotrexaat>methotrexaat>hydroxychloroquine&methotrexaat",1,1,1023
+"Start>methotrexaat",0.448275862068966,13,206
+"Start>methotrexaat>hydroxychloroquine&methotrexaat&sulfasalazine>hydroxychloroquine&leflunomide&sulfasalazine>hydroxychloroquine&sulfasalazine>hydroxychloroquine&leflunomide&sulfasalazine>hydroxychloroquine&sulfasalazine>hydroxychloroquine&methotrexaat&sulfasalazine",1,1,1830
+"Start>methotrexaat>hydroxychloroquine&methotrexaat>hydroxychloroquine&methotrexaat&sulfasalazine>hydroxychloroquine&methotrexaat&sulfasalazine&tocilizumab>hydroxychloroquine&methotrexaat&sulfasalazine",1,1,812
+"Start>methotrexaat>hydroxychloroquine&methotrexaat",0.2,1,193
+"Start>methotrexaat>hydroxychloroquine&methotrexaat>hydroxychloroquine&methotrexaat&sulfasalazine>leflunomide>leflunomide&methotrexaat>adalimumab&leflunomide&methotrexaat>hydroxychloroquine&leflunomide&methotrexaat>hydroxychloroquine&leflunomide>hydroxychloroquine&leflunomide&methotrexaat>hydroxychloroquine&leflunomide>hydroxychloroquine&leflunomide&methotrexaat>hydroxychloroquine&leflunomide>azathioprine&hydroxychloroquine&leflunomide",1,1,1233
+"Start>methotrexaat>hydroxychloroquine&methotrexaat>methotrexaat",1,1,908
+"Start>sulfasalazine>azathioprine",1,1,41
+"Start>methotrexaat>methotrexaat&tocilizumab>methotrexaat",1,1,363

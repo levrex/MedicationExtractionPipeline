@@ -1,0 +1,9 @@
+overrides: "pyexcel.yaml"
+name: "pyexcel-gantt"
+nick_name: "gantt"
+version: "0.0.1"
+current_version: "0.0.1"
+release: "0.0.1"
+dependencies:
+  - jinja2
+description: "draws gantt chart using frappe-gantt.js for pyexcel data"

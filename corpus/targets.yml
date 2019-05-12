@@ -1,0 +1,160 @@
+Comments: MTX,
+Direction: ''
+Lex: methotrexaat
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: HCQ
+Direction: ''
+Lex: leflunomide
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: SFS
+Direction: ''
+Lex: sulfasalazine
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: HCQ
+Direction: ''
+Lex: hydroxychloroquine
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: AZA
+Direction: ''
+Lex: azathioprine
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: Ciclosporine
+Direction: ''
+Lex: ciclosporine
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: AZA
+Direction: ''
+Lex: azathioprine
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: AU
+Direction: ''
+Lex: goud
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: ABT
+Direction: ''
+Lex: abatacept
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: ADA
+Direction: ''
+Lex: adalimumab
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: ANA
+Direction: ''
+Lex: anakinra
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: CERTO
+Direction: ''
+Lex: certolizumab
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: ETA
+Direction: ''
+Lex: etanercept
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: GOLI
+Direction: ''
+Lex: golimumab
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: IFX
+Direction: ''
+Lex: infliximab
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: RTX
+Direction: ''
+Lex: rituximab
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: TOCI
+Direction: ''
+Lex: tocilizumab
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: DEPO
+Direction: ''
+Lex: depomedrol
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: TOFA
+Direction: ''
+Lex: tofacitinib
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: BAR
+Direction: ''
+Lex: baricitinib
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: PRED
+Direction: ''
+Lex: prednison
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: PREDNISOLON
+Direction: ''
+Lex: prednisolon
+Regex: ''
+Type: TARGET
+Capture: $target
+---
+Comments: MED
+Direction: ''
+Lex: medicatie
+Regex: \b(medicatie|med)\b
+Type: TARGET
+Capture: $target

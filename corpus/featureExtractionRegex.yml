@@ -1,0 +1,596 @@
+Comments: 01/02/2019 vb1 7.5 mg per wk
+Direction: bidirectional
+Lex: 7 mg per week
+Regex: (\d+(?:.\d+)?)\s(mg|g|milligram|microgram|gram|ml|milliliter)\s(?:\S+\s){0,2}(?:voor|vr)?\s?(?:elke|iedere|per|p|\/|a)?\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $strength_nr $strength_unit $freq_unit
+---
+Comments: 05/03/2019 vb1 7 tabl per week
+Direction: bidirectional
+Lex: 7 tabletten per week
+Regex: (?:nr|naar|tot)?\s?(\d+(?:.\d+)?)\s(tabletten|tabl|tab)\s?(?:\S+\s){0,2}(?:voor|vr)?\s?(?:elke|iedere|per|p|\/|a)?\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)(?:\s|$|\.)
+Type: DOSAGE, FREQUENCY
+Capture: $dosage_nr $form $freq_unit
+---
+Comments: 05/03/2019 vb1 4 spuiten per week 
+Direction: bidirectional
+Lex: 4 spuiten per week
+Regex: (?:nr|naar|tot)?\s?(\d+(?:.\d+)?)\s(spuit|spuiten|spuitje|spuitjes)\s?(?:\S+\s){0,2}(?:voor|vr)?\s?(?:elke|iedere|per|p|\/|a)?\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)(?:\s|$|\.)
+Type: DOSAGE, FREQUENCY
+Capture: $dosage_nr $form $freq_unit
+---
+Comments: 04/03/2019 vb1 nog 2 maal a 3 weken adalimumab 
+Direction: bidirectional
+Lex: voor x jaar
+Regex: (\d+(?:.\d+)?)\s(?:elke|iedere|per|p|\/|maal|voud|per|malig|x)\s(?:\S+\s)?((?:\d+(?:.\d+)?)\s(?:weken|w|wk|week|wkn|maand|mnd|maanden|jr|jaar|jaren))(?:\s|$|\.)
+Type: FREQUENCY
+Capture: $freq_nr $freq_unit
+---
+Comments: 01/02/2019 vb1 1 maand 10 mg / d
+Direction: bidirectional
+Lex: 2 wkn 20 mg
+Regex: (\d+(?:.\d+)?)\s(weken|wk|week|wekelijks|wkn|maand|mnd|maanden|jr|jaar|jaren)\s?(\d+(?:.\d+)?)?\s(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)(?:elke|iedere|per|p|\/|a)?\s?(wk|week|dag|dd|d|dg)?(?:\s|$|\.)
+Type: DURATION, FREQUENCY, CONCENTRATION
+Capture: $duration_nr $duration_unit $strength_nr $strength_unit $freq_unit
+---
+Comments: 01/02/2019 vb1 3 maanden
+Direction: bidirectional
+Lex: 3 maanden
+Regex: (\d+(?:.\d+)?)\s(weken|wk|week|wekelijks|wkn|maand|mnd|maanden|jr|jaar|jaren)(?:\s|$|\.)
+Type: DURATION
+Capture: $duration_nr $duration_unit
+---
+Comments: 01/03/2019 vb1 2 dd 20 mg
+Direction: bidirectional
+Lex: 2 dd 20 mg
+Regex: (\d+(?:.\d+)?)\s(dd|d|\/|\\)\s(\d+(?:.\d+)?)\s(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit $strength_nr $strength_unit
+---
+Comments: 08/02/2019 vb1 1 x week - simplificatie van onderstaande regel
+Direction: bidirectional
+Lex: 1 x per week
+Regex: (\d+(?:.\d+)?)\s(?:\S+\s){0,1}\s?(?:elke|iedere|per|p|\/|maal|voud|per|malig|x)\s(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit
+---
+Comments: 08/02/2019 vb1 1 x 50
+Direction: bidirectional
+Lex: 1 x 50
+Regex: (\d+(?:.\d+)?)\s(?:elke|iedere|per|p|\/|maal|voud|per|malig|x)\s(\d+(?:.\d+)?)(?:\s|$|\.)
+Type: DOSAGE, CONCENTRATION
+Capture: $dosage_nr $strength_nr
+---
+Comments: 08/02/2019 vb1 1 x / 2 weken - deze is miss een beetje tricky vanwege de groep bij freq_unit - misschien dosage?
+Direction: bidirectional
+Lex: 1 x per 2 weken
+Regex: (\d+(?:.\d+)?)\s(?:\S+\s){0,1}\s?(?:elke|iedere|per|p|\/|maal|voud|per|malig|x)\s((?:\d+(?:.\d+)?)\s(?:weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn))(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit
+---
+Comments: 01/02/2019 vb1 Per wk
+Direction: bidirectional
+Lex: Per week
+Regex: (?:elke|iedere|per|\/)\s(weken|wk|week|dag|dg|d|wkn|maand|mnd|maanden|jr|jaar)(?:\s|$)
+Type: FREQUENCY
+Capture: $freq_unit
+---
+Comments: 25/03/2019 vb1 om de dag
+Direction: bidirectional
+Lex: Om de dag
+Regex: (?:om|elke|iedere|per|\/)\s(?:de|het)?\s?(weken|wk|week|dag|dg|d|wkn|maand|mnd|maanden|jr|jaar)(?:\s|$)
+Type: FREQUENCY
+Capture: $freq_unit
+---
+Comments: 01/02/2019 vb1 1 Per wk 15 mg
+Direction: bidirectional
+Lex: x Per week y mg
+Regex: (\d+(?:.\d+)?)?\s?(?:elke|iedere|per|\/)?\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|maand|mnd|maanden|jr|jaar|jaren)\s(\d+(?:.\d+)?)\s(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit $strength_nr $strength_unit
+---
+Comments: 07/03/2019 vb1 2 x per dag 54 mg
+Direction: bidirectional
+Lex: x keer per dag y mg
+Regex: (\d+(?:.\d+)?)\s(?:\S+\s){0,1}\s?(?:elke|iedere|per|p|\/|maal|voud|per|malig|x)?\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)\s(\d+(?:.\d+)?)\s(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit $strength_nr $strength_unit
+---
+Comments: 01/02/2019 vb1 - dagelijkse dosis 5 mg
+Direction: bidirectional
+Lex: dagelijkse dosis mg
+Regex: (dg|d|dd|dagelijkse dosis) (\d+(?:.\d+)?) (mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_unit $strength_nr $strength_unit
+---
+Comments: 01/02/2019 vb1 - 1 x 15 mg mtx per week 
+Direction: bidirectional
+Lex: conc mg per week 
+Regex: (\d+(?:.\d+)?)\s(?:x|per|\/|maal|malig|voud)?(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)\s(?:\S+)?\s?(?:elke|iedere|per|p|\/|a)?\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)\b
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $strength_nr $strength_unit $freq_unit
+---
+Comments: 28/02/2019 vb1 - 1 x 3 weken mtx - Misschien is dit freq_nr + freq_unit ipv duration_nr - misschien dubbelop?? 
+Direction: bidirectional
+Lex: 1 x freq_nr tijd
+Regex: (\d+(?:.\d+)?)\s(?:x|per|\/|maal|malig|voud)?\s?(\d+(?:.\d+)?)\s?(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)(?:\s|$|\.)?
+Type: DOSAGE, FREQUENCY
+Capture: $dosage_nr $freq_nr $freq_unit
+---
+Comments: 28/02/2019 vb1 - 1 x 15 mg mtx
+Direction: bidirectional
+Lex: conc mg freq
+Regex: (\d+(?:.\d+)?)\s(?:x|per|\/|maal|malig|voud)?\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $strength_nr $strength_unit
+---
+Comments: 01/02/2019 vb1 - 12 x dd 15 mg mtx 
+Direction: bidirectional
+Lex: conc dagelijkse dosis mg
+Regex: (\d+(?:.\d+)?)\s(?:x|per|\/|maal|malig|voud)?\s?(dg|d|dd|dagelijkse dosis)\s(\d+(?:.\d+)?)\s(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit $strength_nr $strength_unit
+---
+Comments: 01/02/2019 vb1 - mtx nr 2 dd 10 mg 
+Direction: backward
+Lex: nr dagelijkse dosis mg
+Regex: (?:nr|naar|tot)?\s?(\d+(?:.\d+)?)?\s?(?:x|per|\/|maal|malig|voud)?\s?(dg|d|dd|dagelijkse dosis)\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: FREQUENCY, CONCENTRATION
+Capture: $freq_nr $freq_unit $strength_nr $strength_unit
+---
+Comments: 01/02/2019 vb1 7.5 mg
+Direction: bidirectional
+Lex: X mg
+Regex: (\d+(?:.\d+)?) (mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: CONCENTRATION
+Capture: $strength_nr $strength_unit
+---
+Comments: 01/02/2019 tdmaarseveen. vb - geen aanwijzingen voor RA
+Direction: forward
+Lex: geen aanwijzingen voor
+Regex: geen\s(aanwijzingen|aanw)\svoor
+Type: DEFINITE_NEGATED_EXISTENCE
+Capture: $e
+---
+Comments: 01/02/2019 vb1 van 20 mg naar 25 mg; vb2 verlaag med naar 1 x 15 mg
+Direction: bidirectional
+Lex: van X mg naar Y mg
+Regex: (?:van\s)?(?:\d+(?:.\d+)?)\s?(?:mg|g)?\s(?:naar|na|tot|nr)\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)(?:\s|$|\.)
+Type: CONCENTRATION, CHANGE
+Capture: $strength_nr $strength_unit
+---
+Comments: 01/02/2019 vb1 verhogen naar 15 mg
+Direction: bidirectional
+Lex: verhogen concentratie
+Regex: (opgehoogd|ophogen|verho(?:ogd|gen|og))\s(?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)\s(?:\S+\s){0,2}(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)\b
+Type: CHANGE
+Capture: $operation $strength_nr $strength_unit $freq_unit
+---
+Comments: 01/02/2019 vb1 verhogen naar 1 x per week
+Direction: bidirectional
+Lex: verhogen frequentie
+Regex: (opgehoogd|ophogen|verho(?:ogd|gen|og))\s(?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(?:\S+\s){0,3}(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)\b
+Type: CHANGE
+Capture: $operation $freq_nr $freq_unit
+---
+Comments: 04/02/2019 vb1 verlagen naar 15 mg per week
+Direction: bidirectional
+Lex: verlagen concentratie en aangeven frequentie
+Regex: (verla(?:agd|gen|ag)|afbouwen|afgebouwd)\s(?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)\s(?:\S+\s){0,2}(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)\b
+Type: CHANGE
+Capture: $operation $strength_nr $strength_unit $freq_unit
+---
+Comments: 07/02/2019 vb1 verlagen naar 15 mg vb2 verlagen naar 0
+Direction: backward
+Lex: verlagen concentratie 
+Regex: (verla(?:agd|gen|ag)|afbouwen|afgebouwd)\s(?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)\s?
+Type: CHANGE
+Capture: $operation $strength_nr $strength_unit
+---
+Comments: 04/02/2019 vb1 af te bouwen
+Direction: bidirectional
+Lex: af te bouwen
+Regex: (af\ste\sbouwen)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 verlagen naar 1 x per week
+Direction: backward
+Lex: verlagen van frequentie
+Regex: (verla(?:agd|gen|ag))\s(?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(?:\S+\s){0,3}(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|w)\b
+Type: CHANGE
+Capture: $operation $freq_nr $freq_unit
+---
+Comments: 04/02/2019 vb1 verhogen naar 12 mg
+Direction: bidirectional
+Lex: verhogen
+Regex: (opgehoogd|ophogen|verho(?:ogd|gen|og))
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 verlagen naar 15 mg
+Direction: bidirectional
+Lex: verlagen
+Regex: (afbouw(?:en)|verla(?:agd|gen|ag))
+Type: CHANGE
+Capture: $operation
+---
+Comments: 06/02/2019 vb1 start mtx
+Direction: bidirectional
+Lex: start
+Regex: \b((?:ge|her)?start(?:en)?)\b
+Type: CHANGE
+Capture: $operation
+---
+Comments: 25/03/2019 vb1 toevoegen mtx
+Direction: bidirectional
+Lex: toevoegen
+Regex: (toevoegen)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 mtx stop
+Direction: bidirectional
+Lex: stop
+Regex: \b((?:ge)?stop(?:t|pen|ten)?)\b
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 als er enkel een nummer gegeven wordt en geen strength_nr of freq_nr. Voorkomen dat dit gebeurd bij een datum (23-2 of 23/2 of 23\2)! 
+Direction: backward
+Lex: naar conc
+Regex: (?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(?:$|(?:\s\.)|\,|;|\:|^)
+Type: CONCENTRATION
+Capture: $strength_nr
+---
+Comments: 28/02/2019 naar 20 mg 
+Direction: backward
+Lex: naar conc mg
+Regex: (?:naar|na|tot|van|nr)\s(\d+(?:.\d+)?)\s?(mg|g|milligram|microgram|gram|ml|milliliter)\s?(\d+(?:.\d+)?)\s?(dg|d|dd|dagelijkse dosis)(?:\s|$|\.)
+Type: CONCENTRATION, FREQUENCY
+Capture: $strength_nr $strength_unit $freq_nr $freq_unit
+---
+Comments: 04/02/2019 med zo door of doorgaan met
+Direction: bidirectional
+Lex: zo door
+Regex: (?:zo)?\s?(doorgaan|door)(?:gaan|met)?\b
+Type: CONTINUE
+Capture: $operation
+---
+Comments: 28/02/2019 iter med
+Direction: bidirectional
+Lex: iter
+Regex: \b(iter)\b
+Type: CONTINUE
+Capture: $operation
+---
+Comments: 04/02/2019 med zo volhouden
+Direction: backward
+Lex: zo houden
+Regex: (?:zo)?\s(?:vol)?houden\b
+Type: CONTINUE
+Capture: $operation
+---
+Comments: 04/02/2019 med zo door
+Direction: bidirectional
+Lex: zo gecontinueerd
+Regex: (?:zo)?\s?(gecontinueerd|doorzetten|vervolgen|vervolgd|continueren|voortzetten|voortgezet)
+Type: CONTINUE
+Capture: $operation
+---
+Comments: 04/03/2019 das kleiner dan 1.6 / mtx afbouwen -> indiceert een aangepast beleid onder bep. conditie -> moet wel gevalideerd worden
+Direction: forward
+Lex: groter dan of kleiner dan
+Regex: (?:\>|\<)
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 25/03/2019 volgende keer mtx verhogen
+Direction: bidirectional
+Lex: volgende keer
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 25/03/2019 vervolgens mtx verhogen ? 
+Direction: bidirectional
+Lex: \?
+Regex: \?
+Type: HYPOTHETICAL
+Capture: $e
+---
+Comments: 04/03/2019 overwegen van x 
+Direction: bidirectional
+Lex: overwegen
+Regex: (?:overwe(?:gen|eg))
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 bij {scenario}
+Direction: forward
+Lex: bij
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 28/02/2019 vb1 - opties
+Direction: bidirectional
+Lex: opties
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 28/02/2019 vb1 - optie
+Direction: bidirectional
+Lex: optie
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 als {scenario}
+Direction: forward
+Lex: als
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 dan {beleid}
+Direction: forward
+Lex: dan
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 plan
+Direction: forward
+Lex: plan
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 dan {beleid}
+Direction: bidirectional
+Lex: indien
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 afhankelijk van {beleid}
+Direction: bidirectional
+Lex: afhankelijk
+Regex: ''
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 27/02/2019 evt {beleid} 
+Direction: bidirectional
+Lex: evt
+Regex: evt|eventueel
+Type: HYPOTHETICAL
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 hervatten van mtx
+Direction: bidirectional
+Lex: starten van
+Regex: (hervatten) (?:van|met)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 starten van mtx
+Direction: bidirectional
+Lex: starten van
+Regex: (?:her)?(starten) (?:van|met)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 stoppen van mtx
+Direction: bidirectional
+Lex: stoppen van
+Regex: (stoppen) (?:van|met)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 staken
+Direction: bidirectional
+Lex: staken
+Regex: (staken)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 04/02/2019 vb1 gestaakt
+Direction: bidirectional
+Lex: gestaakt
+Regex: (gestaakt)
+Type: CHANGE
+Capture: $operation
+---
+Comments: 08/02/2019 vb1 - iv or i.v.
+Direction: bidirectional
+Lex: intravenous
+Regex: \b(i\.?v\.?)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 intraarticular vb1 - ia or i.a.
+Direction: bidirectional
+Lex: intraarticular
+Regex: \b(i\.?a\.?)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - im or i.m.  injection
+Direction: bidirectional
+Lex: intramuscular
+Regex: \b(i\.?m\.?)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - sc or s.c.  injection
+Direction: bidirectional
+Lex: subcutaneous
+Regex: \b(s\.?c\.?)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - os
+Direction: bidirectional
+Lex: os
+Regex: \b(os)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - per os
+Direction: bidirectional
+Lex: per os
+Regex: \b(per os)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - po or p.o.
+Direction: bidirectional
+Lex: po
+Regex: \b(p\.?o\.?)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - oraal
+Direction: bidirectional
+Lex: oraal
+Regex: \b(oraal)\b
+Type: ROUTE
+Capture: $route
+---
+Comments: 08/02/2019 vb1 - geen mtx
+Direction: forward
+Lex: geen
+Regex: ''
+Type: PROBABLE_NEGATED_EXISTENCE
+Capture: $e
+---
+Comments: 08/02/2019 vb1 - geen artritis
+Direction: forward
+Lex: geen artritis
+Regex: ''
+Type: PSEUDO_NEGATED
+Capture: $e
+---
+Comments: 07/02/2019 vb1 niet verlagen
+Direction: bidirectional
+Lex: niet verlagen
+Regex: (niet|geen)\s(verla(?:agd|gen|ag)|afbouwen|afgebouwd)
+Type: PSEUDO_CHANGE
+Capture: $e $e
+---
+Comments: 07/02/2019 vb1 niet verhogen
+Direction: bidirectional
+Lex: niet verhogen
+Regex: (niet|geen)\s(opgehoogd|ophogen|verho(?:ogd|gen|og))
+Type: PSEUDO_CHANGE
+Capture: $e $e
+---
+Comments: 07/02/2019 vb1 geen switch
+Direction: bidirectional
+Lex: geen switch
+Regex: (niet|geen)\s(switch)
+Type: PSEUDO_CHANGE
+Capture: $e $e
+---
+Comments: 25/03/2019 vb1 niet mtx ophogen
+Direction: bidirectional
+Lex: niet
+Regex: (niet|geen)
+Type: PROBABLE_NEGATED_EXISTENCE
+Capture: $e $e
+---
+Comments: 11/03/2019 verandering van medicament vb1 - switch van mtx
+Direction: bidirectional
+Lex: switch van
+Regex: (switch)\s(?:van)\s(?:\S+\s)(?:\s|$|\.)
+Type: CHANGE
+Capture: $operation $old_med
+---
+Comments: 11/03/2019 verandering van medicament vb1 - switch ssz naar mtx
+Direction: bidirectional
+Lex: switch
+Regex: (switch)
+Type: CHANGE
+Capture: $operation $old_med
+---
+Comments: 27/02/2019 verandering van medicament vb1 - van ssz naar mtx
+Direction: bidirectional
+Lex: van med1 naar med2
+Regex: van ([a-z]+) naar
+Type: CHANGE
+Capture: $old_med
+---
+Comments: 27/02/2019 indien er een range gebruikt wordt voor frequency nr vb1 2 - 3 weken
+Direction: bidirectional
+Lex: x - y weken
+Regex: (\d+(?:.\d+)?\s(?:\-|a|tot)\s\d+(?:.\d+)?)\s(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|maand|mnd|maanden|jr|jaar|jaren)(?:\s|$|\.)
+Type: DURATION
+Capture: $duration_nr $duration_unit
+---
+Comments: 01/03/2019 vb 1 maand
+Direction: bidirectional
+Lex: x maand
+Regex: (\d+(?:.\d+)?)\s(weken|wk|week|wekelijks|dagelijks|dag|dg|d|wkn|maand|mnd|maanden|jr|jaar|jaren)(?:\s|$|\.)
+Type: DURATION
+Capture: $duration_nr $duration_unit
+---
+Comments: 28/02/2019 vb1 - sc injection
+Direction: bidirectional
+Lex: injectie
+Regex: \b(injection|injectie|inj)\b
+Type: FORM
+Capture: $form
+---
+Comments: 28/02/2019 vb1 - tabletten
+Direction: bidirectional
+Lex: tablet
+Regex: \b(tabletten|tablet|tabl|tab)\b
+Type: FORM
+Capture: $form
+---
+Comments: 28/02/2019 vb1 - 2 tabletten
+Direction: bidirectional
+Lex: x tabletten
+Regex: (?:nr|naar|tot)?\s?(\d+(?:.\d+)?)?\s(tabletten|tablet|tabl|tab)\b
+Type: FORM, DOSAGE
+Capture: $dosage_nr $form
+---
+Comments: 28/02/2019 vb1 - infuus
+Direction: bidirectional
+Lex: infuus
+Regex: \b(infuus)\b
+Type: FORM
+Capture: $form
+---
+Comments: 06/03/2019 vb1 - spuit
+Direction: bidirectional
+Lex: spuit
+Regex: \b(spuit|spuiten|spuitje|spuitjes)\b
+Type: FORM
+Capture: $form
+---
+Comments: 06/03/2019 vb1 - 2 spuiten
+Direction: bidirectional
+Lex: x spuiten
+Regex: (\d+(?:.\d+)?)?\s(spuit|spuiten|spuitje|spuitjes)\b
+Type: FORM, DOSAGE
+Capture: $dosage_nr $form
+---
+Comments: 28/02/2019 vb1 - 1 dd 2 
+Direction: bidirectional
+Lex: freq_nr freq_unit dosage
+Regex: (\d+(?:.\d+)?) (dd|d|dosis) (\d+(?:.\d+)?)
+Type: FREQUENCY, DOSAGE
+Capture: $freq_nr $freq_unit $dosage_nr
+---
+Comments: 28/02/2019 vb1 - X mg 1 dd
+Direction: bidirectional
+Lex: med 1 dd
+Regex: (\d+(?:.\d+)?)\s(dd|d|dag)
+Type: FREQUENCY, DOSAGE
+Capture: $freq_nr $freq_unit $strength_nr
+
+
