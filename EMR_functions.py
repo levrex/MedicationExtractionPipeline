@@ -36,12 +36,12 @@ import networkx as nx
 def overviewPerformanceDict(d_perf):
     """
     Generate a summary of the performance by calculating the 
-    Accuracy, Positive predictive value, Negative predictive value,
-    Sensitivity and Specificity.
+	Accuracy, Positive predictive value, Negative predictive value,
+	Sensitivity and Specificity.
 
-    Variables:
-    d_perf = dictionary consisting of the true/ false positives 
-        and true/ false negatives
+	Variables:
+	d_perf = dictionary consisting of the true/ false positives 
+		and true/ false negatives
     """
     accuracy = ( d_perf['true_pos'] + d_perf['true_neg']) / sum(d_perf.values())
     ppv = d_perf['true_pos'] / (d_perf['true_pos'] + d_perf['false_pos']) 
@@ -55,12 +55,12 @@ def overviewPerformanceDict(d_perf):
 def overviewPerformanceList(l_perf):
     """
     Generate a summary of the performance by calculating the 
-    Accuracy, Positive predictive value, Negative predictive value,
-    Sensitivity and Specificity.
+	Accuracy, Positive predictive value, Negative predictive value,
+	Sensitivity and Specificity.
 
-    Variables:
-    l_perf = list consisting of the true/ false positives 
-        and true/ false negatives
+	Variables:
+	l_perf = list consisting of the true/ false positives 
+		and true/ false negatives
     """
     if (l_perf[0] + l_perf[1]) > 0 :
         accuracy = ( l_perf[0] + l_perf[1]) / sum(l_perf)
@@ -86,21 +86,28 @@ def overviewPerformanceList(l_perf):
 
 def getMedicineSubset(df):
     """
-    This function creates a medicine subset.
+    This function creates a list with all of the drugs defined
+	according to the acronyms file (which is saved in MEDICINE).
+	Then, the function creates a subselection of the provided 
+	dataframe, and only returns the rows of the dataframe that 
+	contain a drug from the composed list of medicine. This 
+	subset is then returned as output.
+
+	Variables:
+		df = dataframe which is used to extract the drugs
     """
     l_med = [s for s in df['XANTWOORD'] if any(xs in s for xs in MEDICINE)]
     df_new = df[df['XANTWOORD'].isin(l_med)]
     return df_new
 
 def build_convenient_list(f_name, delim, encod):
-    
-    """
-    This function processes a file without newlines so that
-    it can be read as a pandas dataframe
+	"""
+	This function processes a file without newlines so that
+	it can be read as a pandas dataframe
 
-    Variables:
-        tot_list = list containing the contents of the file  
-    """
+	Variables:
+		tot_list = list containing the contents of the file  
+	"""
     tot_list = []
     if encod == "ascii":
         f = io.open(f_name, mode='r')
@@ -113,19 +120,29 @@ def build_convenient_list(f_name, delim, encod):
     return tot_list
 
 def makeFile(f_name, content):
-    """
-     This function writes the content to a file
+	"""
+	This function writes the provided content to a file
 
-     Variables:
-        f_name = name of file
-        content = text to write to file 
-    """
+	Variables:
+		f_name = name of file
+		content = text to write to file
+	"""
     txt_allopt = open(r'output_files/' + f_name, "w")
     txt_allopt.write(content)
     txt_allopt.close()
     return
 
 def convert_to_ascii(f_input, f_output):
+	"""
+	Reads the provided input file and converts this file to an 
+	ascii file (which is then saved independently in a csv file). 
+
+	Variables:
+		f_input = file of which the information will be converted
+			to ascii
+		f_output = name for the ascii file that will be returned
+			as output.
+	"""
     f = io.open(f_input, mode='r', encoding="utf-16")
     content = f.read()
     makeFile(f_output, content)
@@ -133,15 +150,24 @@ def convert_to_ascii(f_input, f_output):
     return 
 
 def list_to_df(conv_list):
+	"""
+	Processes the provided list (of lists) and converts it to a 
+	pandas dataframe. The first 'row' is utilized as headers.
+	The created dataframe is returned as output (df). 
+	
+	Variables:
+		conv_list = list of lists that basically contain all of the
+			rows of a dataframe
+	"""
     headers = conv_list.pop(0)
     df = pd.DataFrame(conv_list, columns=headers)
     return df
 
 def determineIntersection(s1, s2):
     """
-    This function calculates the size of the intersection 
-    between two numpy arrays (s1 and s2).
-    """
+	This function calculates the size of the intersection 
+	between two numpy arrays (s1 and s2).
+	"""
     a1 = s1.unique()
     a1 = a1[a1 != np.array(None)]
     a2 = s2.unique()
@@ -149,10 +175,11 @@ def determineIntersection(s1, s2):
     return np.intersect1d(a1, a2)
     
 def determineDiff(s1, s2):
-    """
-    This function calculates the size of the difference
-    between two numpy arrays (s1 and s2).
-    """
+	"""
+	This function calculates the size of the difference
+	between two numpy arrays (s1 and s2). This difference is then
+	returned as output.
+	"""
     a1 = s1.unique()
     a1 = a1[a1 != np.array(None)]
     a2 = s2.unique()
@@ -160,18 +187,23 @@ def determineDiff(s1, s2):
     return np.setdiff1d(a1, a2)
 
 def read_csv(f_name):
-    """
-    This function reads a csv file
+	"""
+	This function reads a csv file that is seperated by pipes.
 
-    Variables:
-        f_name = name of csv file
-    """
+	Variables:
+		f_name = name of csv file
+	"""
     return pd.read_csv(f_name, sep="|")
 
 def appendValueDict(d, key, value):
     """
-        d = dict
-        value = new value
+	This function appends a value to the provided dictionary.
+
+	Variables
+        d = dictionary that will be updated
+		key = the key indicating the item that will be 
+			updated
+        value = new value for the dictionary
     """
     if key in d:
         d[key].append(str(value))
@@ -180,6 +212,16 @@ def appendValueDict(d, key, value):
     return d
 
 def determineFirstDate(df):
+	"""
+	This function determines the first absolute date by looping 
+	through all of the rows and all of the columns of the provided
+	dataframe (df) and collecting the absolute first date (abs_min).
+	The first date is returned as output
+
+	Variables:
+		df = pandas Dataframe of which the first date will be 
+			determined
+	"""
     abs_min=''
     for row in range(len(df)):
       s1 = df.loc[row, DATECOLS].values
@@ -192,21 +234,26 @@ def determineFirstDate(df):
 def midasTouch(df, path=r'input_files/EMR_goldenstandard.csv'):
     """
     Seperates the patients from the golden standard from the test & 
-    trainingsset (df). Only the candidates with a corresponding follow-up
-    will be selected as golden standard material. 
+    trainingsset (df). Only the candidates with a corresponding 
+	follow-up will be selected as golden standard material. 
     
-    This function also creates a new dataframe consisting of the extracted 
-    'golden' patients and deletes the extracted patients
+    This function also creates a new dataframe consisting of the 
+	extracted 'golden' patients and deletes the extracted patients
     from the originating dataframe (df).
     
-    path = path to the golden standard file
-    df_gold = dataframe consisting of all the golden standard patients
-    df = dataframe of which the golden patients will be extracted
-    df_extract = dataframe consisting of the patients extracted from df
-    l_putative_patients = list of patients from the golden standard that
-        are also present in the df
-    l_golden_patients = list of patients from the golden standard that
-        are also present in the df and contain a corresponding follow-up
+	Variables:
+    	path = path to the golden standard file
+    	df_gold = dataframe consisting of all the golden standard 
+			patients
+    	df = dataframe of which the golden patients will be 
+			extracted
+    	df_extract = dataframe consisting of the patients extracted
+			 from df
+    	l_putative_patients = list of patients from the golden 
+			standard that are also present in the df
+    	l_golden_patients = list of patients from the golden 
+			standard that are also present in the df and contain a 
+			corresponding follow-up
     """ 
     df_gold = read_csv(path) # Golden Standard
     df_gold = df_gold.replace(r'^\s+$', np.nan, regex=True)
@@ -303,42 +350,44 @@ def createSubsets(df_total, seed, perc_exp, perc_typo):
     return df_test, df_typo, df_explore
 
 def lemmatizingText(sentence):
-    """
-    This function normalizes words with the pattern.nl package. 
-    Lemmatisation returns words to the base form.
+	"""
+	This function normalizes words with the pattern.nl package. 
+	Lemmatisation returns words to the base form.
 
-    Example: Walking, Walks and Walked are all translated to 
-        Walk
-    """
+	Example: Walking, Walks and Walked are all translated to 
+		Walk
+	"""
     return ' '.join(patNL.Sentence(patNL.parse(sentence, lemmata=True)).lemmata)
     
 
 class Processing(object):
     """
-        This class is concerned with the preprocessing of the 
-        dataset. The preprocessing consists of three main
-        steps: 
-            1. Cleaning
-                - HandleStickyCharacters()
-            2. Typo correction
-                - damerauLevenshtein()
-                - handleTypoAcronym()
-            3. Acronym mapping
-                - handleAcronym() with the provided 
-                    ACRONYM_MAP
+		This class is concerned with the preprocessing of the 
+		dataset. The preprocessing consists of three main
+		steps: 
+			1. Cleaning
+				- Lowercase conversion (Word Normalization) in
+					ProcessTableREU()
+				- HandleStickyCharacters() (Word Segmentation)
+			2. Typo correction
+				- damerauLevenshtein()
+				- handleTypoAcronym()
+			3. Acronym mapping
+				- handleAcronym() with the provided 
+					ACRONYM_MAP
 
         Input: 
-        df = pandas Dataframe (either exploration or testset)
-        l_typo = list consisting of all the typos
-        d_typo_rows = dictionary featuring the row numbers where a typo
-            is corrected per medication (key)
+		df = pandas Dataframe (either exploration or testset)
+		l_typo = list consisting of all the typos
+		d_typo_rows = dictionary featuring the row numbers where a typo
+        	is corrected per medication (key)
         l_typo_found = list with all rows where a typo was found 
-            (for creating sample 1 (and ultimatelly sample 3 and 4))
-        d_cutoff = dictionary consisting of the Damerau Levenshtein 
-            tolerance threshold per medication. This dictionary can 
-            either be generated with the function 
-            generateTypoCuttOffPlot() or extracted from the 
-            DF_CutOff.csv file.     
+			(for creating sample 1 (and ultimatelly sample 3 and 4))
+		d_cutoff = dictionary consisting of the Damerau Levenshtein 
+			tolerance threshold per medication. This dictionary can 
+			either be generated with the function 
+			generateTypoCuttOffPlot() or extracted from the 
+			DF_CutOff.csv file. 	
     """
     def __init__(self, df):
         self.df = df
@@ -371,12 +420,12 @@ class Processing(object):
         return self.d_typo_rows
     
     def getDictCutOff(self, init=0):
-        """
-        This function extracts the thresholds from the DF_CutOff 
-        file where the Damerau Levenshtein tolerance cut-off values 
-        are stored. Returns an error message if the cut-off file 
-        does not exist 
-        """
+		"""
+		This function extracts the thresholds from the DF_CutOff 
+		file where the Damerau Levenshtein tolerance cut-off values 
+		are stored. Returns an error message if the cut-off file 
+		does not exist. 
+		"""
         try:
             df_CutOff = read_csv(r'input_files/DF_CutOff.csv')
             for x in df_CutOff:
@@ -390,6 +439,12 @@ class Processing(object):
         return self.d_cutoff
         
     def isDigit(self, string):
+		"""
+		Determines wheter or not the found word is actually an
+		integer. This function returns a boolean as output:
+			True = word (string) is an integer
+			False = word (string) is not an integer
+		"""
         try: 
             int(string)
             return True
@@ -397,14 +452,23 @@ class Processing(object):
             return False
     
     def removeRTF(self, column):
-        #df_rtf = self.df[self.df[column].str.contains(r"^\{.*\}.*", na=False)]
+		"""
+		Removes all of the values that consists of Rich Text fields
+		by applying a regex expression on the data.
+
+		Variable:
+			column = specifies the column of HIX upon which the existence of rich
+				text fields is checked.
+		"""
         self.df = self.df[~self.df[column].str.contains(r"^\{.*\}.*", na=False)]
-        #df_rtf.to_csv(r'output_files/DF_REUBEL_RTF.csv', sep='|', index=False)
         return
     
     def removeAccent(self, text):
         """
-        This function removes the accent of characters from the text
+        This function removes the accent of characters from the text.
+
+		Variables:
+			text = text to be processed
         """
         try:
             text = unicode(text, 'utf-8')
@@ -416,6 +480,21 @@ class Processing(object):
         return str(text)
     
     def processTableREU(self):
+		"""
+		This function processes the REU table according to several 
+		steps: 
+			1. The date (DATUM) is converted to the datetime type
+			2. The total duration of followup is assessed
+			3. The total duration is converted to an integer 
+				and reflects the number of days
+			4. The free text fields from the HiX table are 
+				normalized (Word normalization) by removing 
+				the capital letters.
+			5. The empty values are replaced with NaNs
+			6. All of the Nans within the columns 
+				XANTWOORD, STELLING and DOSSIERID are removed
+		Finally, the processed dataframe is exported to a csv file.
+		"""
         self.df['DATUM'] = pd.DatetimeIndex(pd.to_datetime(self.df['DATUM'])).tz_localize('UTC')
         self.df = self.df.assign(DUURTOT=self.df.sort_values(['PATNR', 'DATUM']).groupby('PATNR')['DATUM'].transform(lambda x: x.iat[-1] - x.iat[0]))
         
@@ -431,10 +510,12 @@ class Processing(object):
         return
     
     def createTableREU(self):
-        """
-        This function creates a subset of the dataframe. 
-        All entries with the specified category 'REU' are selected.
-        """
+		"""
+		This function creates a subset of the dataframe. 
+		All entries with the specified category 'REU' are selected. 
+		This table is then processed with the function 
+		processTableREU()
+		"""
         self.df = self.df.loc[self.df['CATEGORIE'] == 'REU'] 
         self.processTableREU()
         return
@@ -446,6 +527,13 @@ class Processing(object):
         to the full medication word.
         
         The updated text (expanded_text) is then returned as output.
+
+		Variables:
+		text = text, from the report, to be processed
+		acronym_mapping = dictionary where the typo-containing 
+			acronyms are matched with the complete drug name
+		row_nr = current row number (used to keep track of the rows
+			that consist of typos)  
         """
         acronyms_pattern = re.compile(r'\b({})\b'.format('|'.join(acronym_mapping.keys())), 
                                           flags=re.IGNORECASE|re.DOTALL)
@@ -460,13 +548,19 @@ class Processing(object):
     
     def handleTypoAcronym(self, text, acronym_mapping, row_nr):
         """
-        This function searches for acronyms in the text by checking
-        every word. Once a word is found, the acronym is converted
-        to the full medication word.
+        This function searches for acronyms consisting of typos
+		within the text by checking every word. Once an acronym is 
+		found, the acronym is converted to the full medication 
+		word.
         
         The updated text (expanded_text) is then returned as output.
         
         Variables:
+		text = text, from the report, to be processed
+		acronym_mapping = dictionary where the typo-containing 
+			acronyms are matched with the complete drug name
+		row_nr = current row number (used to keep track of the rows
+			that consist of typos)  
         self.d_typo_rows = dictionary keeping track of the found typos 
             per row
         """
@@ -512,6 +606,9 @@ class Processing(object):
         (pattern 4)
             
         Finally, this function removes all of the duplicate whitespace. 
+		
+		Variables:
+			text = text, from the report, to be processed
         """
         sticky_chars = r'([!#?,.:";@\-\+\\/&=$\]\[<>\'\*`â€™\(\)])'
         words = text.split() 
@@ -545,13 +642,16 @@ class Processing(object):
     
     def createTableREUBEL(self):
         """
-            Create the REU|Beleid table: by selecting all of the
-            entries where STELLING = BELEID.
-            After that the following preprocessing steps are taken:
-                - Remove Rich Text Fields 
-                - Remove Accents
-                - Remove Sticky Characters (Word Segmentation)
-            Then the table is saved as a csv
+		Creates the REU|Beleid table by selecting all of the 
+		entries where STELLING = Beleid. This table is
+		then preprocessed in multiple steps:
+			1. The rich text field values are removed -> these
+				fields consist of nonsense.
+			2. The accents are removed from the characters
+			3. Word segmentation: The characters that stick to 
+				words are seperated with the function 
+				handleStickyChars().
+		Finally the dataframe is written to a csv file.
         """
         self.df = self.df[self.df['STELLING'].isin(['Beleid'])]
         self.removeRTF('XANTWOORD')
@@ -563,6 +663,18 @@ class Processing(object):
         return
     
     def createTableREUCON(self):
+		"""
+		Creates the REU|Conclusie table by selecting all of the 
+		entries where STELLING = Conclusie. This table is
+		then preprocessed in multiple steps:
+			1. The rich text field values are removed -> these
+				fields consist of nonsense.
+			2. The accents are removed from the characters
+			3. Word segmentation: The characters that stick to 
+				words are seperated with the function 
+				handleStickyChars().
+		Finally the dataframe is written to a csv file.
+		"""
         self.df = self.df[self.df['STELLING'].isin(['Conclusie'])]
         self.removeRTF('XANTWOORD')
         self.df['XANTWOORD'] = self.df['XANTWOORD'].apply(lambda x: 
@@ -604,15 +716,12 @@ class Processing(object):
             self.getDictCutOff()
         df_corrected, l_typo_found = self.typoProcessing('XANTWOORD')
         df_typo_rows = df_corrected.iloc[l_typo_found]
-        
-        print(len(df_typo_rows))
         # Sample 2
         sample2 = df_typo_rows.sample(n=round(len(df_typo_rows)*frac), random_state=seed)
         sample2[['PATNR', 'DATUM', 'XANTWOORD']].to_csv(r'output_files/Sample2_corrected.csv', sep='|', index=True)
         sample2_raw = self.df.loc[sample2.index.values][['PATNR', 'DATUM', 'XANTWOORD']]
         sample2_raw.to_csv(r'output_files/Sample2_raw.csv', sep='|', index=True)
         df_corrected.to_csv(r'output_files/DF_corrected_full.csv', sep='|', index=True)
-        
         df_remain = df_corrected.drop(df_typo_rows.index.values) 
         l_med = self.getRowsMedicine(df_remain)
         df_nomed = df_remain.drop(l_med) 
@@ -625,13 +734,15 @@ class Processing(object):
         # Sample 4
         sample4 = df_notypo.sample(n=round(len(df_notypo)*frac), random_state=seed)
         sample4_raw = self.df.loc[sample4.index.values][['PATNR', 'DATUM', 'XANTWOORD']]
-        
         sample4[['PATNR', 'DATUM', 'XANTWOORD']].to_csv('output_files/Sample4.csv', sep='|', index=True)
         sample4_raw.to_csv('output_files/Sample4_raw.csv', sep='|', index=True)
         return
     
     def getRowsMedicine(self, df):
-        """
+        """	
+		This function returns all of the rows from the dataframe 
+		that features medicine. The corresponding row numbers 
+		(index) are collected in the list (l_med).
         """
         l_med = []
         for index, row in df.iterrows():
@@ -643,8 +754,13 @@ class Processing(object):
     def damerauLevenshtein(self, s, t):
         """
         Calculates the levenshtein score, which is the total sum of
-        substitutions, insertions, deletions and (small) transpositions.
-        https://www.guyrutenberg.com/2008/12/15/damerau-levenshtein-distance-in-python/
+        substitutions, insertions, deletions and (small) 
+		transpositions. The calculated Damerau Levenshtein score
+		that is assessed according to the two strings (s & t) is 
+		finally returned as output.
+
+		Ref: https://www.guyrutenberg.com/2008/12/15/damerau
+			-levenshtein-distance-in-python/
         """
         d = {}
         lenstr1 = len(s)
@@ -672,8 +788,16 @@ class Processing(object):
     
     def typosPerCategory(self, text, word):
         """
-            For Analyzing:
-                Determines the amount of typos per Category
+		This function estimates the number of typos for the 
+		provided medicine (word) by looping through every word in 
+		the provided report (text) and checking if the DL-score 
+		(The Damerau Levenshtein score) is below the threshold. 
+		The word is appended to the list l_typo if a typo is found.
+		This list can later on be used to create a WordCloud.
+
+		Variables:
+			text = text of the report
+			word = medication to look for
         """
         factor_word = int(len(word)*1/6+1) # vanaf 6 letters naar boven, standaard van 1
         for x in re.split(' |\n',str(text)):
@@ -682,14 +806,15 @@ class Processing(object):
             and str(x) not in MEDICINE and str(x): # NOT in MEDICINE
                 score = self.damerauLevenshtein(x, word)
                 if score < factor_word+1 and score != 0:
-                    #print(str(x) + "; " + str(word) + "; " + str(score))
-                    self.l_typo.append(str(x) + " : " + str(word))
+                    self.l_typo.append(str(x) + " : " + str(word)) 
+					# Above: Not visually appealing for Wordcloud
         return text
     
     def typoAnalyzing(self, column, medication_list):
         """
-            For Analyzing:
-                Determines the amount of typos per Medicine
+        This function checks the number of typos for all drugs in
+		the provided list (medication_list). Only the data from 
+		the specified column is processed.  
         """
         self.l_typo = []
         for y in medication_list:
@@ -698,21 +823,32 @@ class Processing(object):
     
     def correctTypos(self, text, row_nr):
         """
-            med_list = selection of medication
-            
-            d_typos = dictionary featuring all of the found typos per
-                sentence and is used to determine the closest neighbour:
-                
-                    galimumab : adalimumab (levenshtein: 2)
-                    galimumab : golimumab (levenshtein: 1)
-                
-                In the example above the function picks golimumab as
-                the closest neighbour.
-                    
-            Not checking for 'goud' currently. -> word is too small
-            
-            The typos in Acronyms are also corrected
-        """
+		This function checks every word in the text and 
+		determines the similarity with the reference to assess 
+		wheter or not a drug (with typos) is mentioned. The 
+		score of similarity is assessed according to the 
+		dictionary d_cutoff which stores the thresholds per drug. 
+
+		If the Damerau Levenshtein-score of the word is below the 
+		threshold, than the identified typos in said word are 
+		corrected. Otherwise it is assumed that it is another word 
+		entirely. All of the words with typos are first collected in 
+		the d_typos dictionary. When all typos are assessed this 
+		dictionary is applied to proces the text according to the 
+		collected typos. The typos in Acronyms are also corrected 
+		with the function handleTypoAcronym(). The corrected text is
+		finally returned.
+		
+		Variables:
+		text = text from the report
+		row_nr = row number
+        med_list = selection of medication to search for
+        d_typos = dictionary featuring all of the found typos per
+            sentence and is used to determine the closest neighbour:
+                galimumab : adalimumab (levenshtein: 2)
+                galimumab : golimumab (levenshtein: 1)
+            In the example above the function picks golimumab as
+            the closest neighbour."""
         exceptions = ['dmards', 'biologicals']
         d_typos = {}
         for x in re.split(' |\n',str(text)):
@@ -740,22 +876,31 @@ class Processing(object):
 
     def typoProcessing(self, column):
         """
-            d_typo_rows = dictionary featuring the row numbers where a typo
-                is corrected per medication (key)
-            l_typo_found = list with all rows where a typo was found 
-                (for creating sample 1 (and ultimatelly sample 3 and 4))
-            Uiteindelijk wil je gaan selecteren op de rijnummers
+		This function can be divided into three main steps:
+		1. The rows that consist of typo's are collected 
+			in d_typo_rows (row numbers).
+		2. A new 'correct' dataframe is made that features the rows 
+			which are corrected according to self.correctTypos
+		3. The nr. of typos per category (drug) are assessed and 
+			stored in df_typoCat
+
+		Both the corrected Dataframe and the list with rows 
+		consisting of typos are returned. 
+		
+		Variables:
+		column = string pointing to column to be processed
+        d_typo_rows = dictionary featuring the row numbers where a typo
+            is corrected per medication (key)
+        l_typo_found = list with all rows where a typo was found 
+            (for creating sample 1 (and ultimatelly sample 3 and 4))
         """
         self.d_typo_rows = {}
         l_typo_found = []
         df_corrected = self.df.copy()
-        #for row in df_corrected[column].iterrows():
         row_nr = 0
         for row in df_corrected[column]:
             df_corrected.iat[row_nr, df_corrected.columns.get_loc('XANTWOORD')] = self.correctTypos(row, row_nr)
             row_nr += 1
-        #df_corrected[column], d_typo_rows = self.df[column].apply(
-        #    lambda x : self.correctTypos(x, d_typo_rows, x.name))
         df_typoCat = pd.DataFrame(columns = MEDICINE)
         df_typoCat.append(pd.Series([np.nan]), ignore_index = True)
         df_typoCat.loc[0] = [0 for n in range(len(MEDICINE))]
@@ -770,8 +915,17 @@ class Processing(object):
 
     def calculateTyposInAll(self, text, word):
         """
-            Count all posibilities of variations -> no stringent threshold.
-            This can be useful to determine the cut-off for typos
+        Counts all posibilities of variations. The only
+		threshold that was applied is the size of the window, 
+		in this case a maximum of 6 mutations in the variants
+		was tolerated. The list that keeps track of the 
+		variations (l_score_typo) is updated according to 
+		the encountered variants. This list can ultimately be used 
+		to determine the optimal cut-off for discerning typos
+
+		Variables:
+			text = text to be processed
+			word = word from text to compare to the reference
         """
         for x in re.split(' |\n',str(text)):
             if self.isDigit(x) == False and str(x) not in MEDICINE : # NOT in MEDICINE
@@ -781,11 +935,37 @@ class Processing(object):
         return
     
     def variationsPerScore(self, df, column, med): # column, medication_list
+		"""
+		Creates an 'empty' list that keeps track of the the 
+		variations according to the reference (med) per score. 
+		Finally the list is returned as output. 
+
+		Variables:
+			df = pandas Dataframe to be processed
+			column = name of the column that should be 
+				processed (likely XANTWOORD)
+			med = Medication of which the variations are
+		"""
         self.l_score_typo = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         df[column].apply(lambda x : self.calculateTyposInAll(x, med))
         return self.l_score_typo
     
     def normalizeScores(self, l_score_typo):
+		"""
+		Normalizes the frequency according to the total nr
+		of variants. If there are no variants found than a
+		list consisting of zeroes is returned according to the
+		length of the list that keeps track of the distribution
+		of variants.
+
+		In this study, two distributions were made: one 
+		with a scope of 5 and another one with a scope of 6.
+		Therefore these are the two exceptions taken care of		
+
+		Variables:
+			l_score_typo = defines the scope in which
+				the cut-off is determined.
+		"""
         n_list = []
         if sum(l_score_typo) != 0:
             for y in l_score_typo:
@@ -797,11 +977,33 @@ class Processing(object):
         return n_list 
     
     def createCategoryPlot(self, df, label, sum_list, p_title, lbl_x, lbl_y):
-        """
-        Creates a plot
+		"""
+		This function creates a line plot displaying the 
+		frequency of the number of variations upon the 
+		specified drug.
 
-        [TO BE CONTINUED]
-        """
+		The following features are collected for every point in 
+		the line: 
+			x = nr. of mutations relative to reference 
+			y = normalized frequency
+			desc = drug name
+			freq = actual frequency
+		These features can be accessed in the interactive Bokeh 
+		plot via the HoverTool. 
+
+		Finally, the line plot (l) of the specified drug
+		is returned as output.
+
+		Variables:
+			df = pandas Dataframe to be processed
+			label = list of labels (drug names)
+			sum_list = list consisting of the total nr of 
+				variations found per drug
+			p_title = title of the plot (string)
+			lbl_x = label for x-axis in the plot
+			lbl_y = label for y-axis in the plot
+			
+		"""
         p = figure(plot_width=1000, plot_height=600, title=p_title, x_axis_label=lbl_x, y_axis_label=lbl_y)
         numlines=len(df.columns)
         mypalette=viridis(len(TYPO_MED))
@@ -824,21 +1026,22 @@ class Processing(object):
         return p
     
     def generateTypoCuttOffPlot(self, df):
-        """
-        This function creates a Bokeh plot that visualizes 
-        the distribution of number of variations upon a drug. 
-        
-        The variations with a few differences are more likely
-        to consist of typos than variation with a high number 
-        of difference. This plot can be utilized to determine 
-       the cut-off dividing the words with typos from the 
-       non typo words.
+		"""
+		This function creates a Bokeh plot that visualizes 
+		the distribution of number of variations upon a drug. 
+		The quantative numbers are first normalized resulting in 
+		an area under the curve of 1. For the distribution a line 
+		plot is made with the function createCategoryPlot().
+		
+		The variations with a few differences are more likely
+		to consist of typos than variation with a high number 
+		of differences.
 
-        Variables:
-            df = pandas Dataframe (HIX) to be processed, in this
-                case the column XANTWOORD is used because it 
-                contains the free text fields.
-        """ 
+		Variables:
+			df = pandas Dataframe (HIX) to be processed, in this
+				case the column XANTWOORD is used because it 
+				contains the free text fields.
+		""" 
         typo_df = pd.DataFrame(columns = TYPO_MED)
         typo_df2 = pd.DataFrame(columns = TYPO_MED)
         sum_list = []
@@ -851,35 +1054,37 @@ class Processing(object):
             typo_df[x] = self.normalizeScores(l_score_typo[0:6])
             typo_df2[x] = self.normalizeScores(l_score_typo[0:5])
         p1 = self.createCategoryPlot(typo_df, TYPO_MED, sum_list, 
-            'Occurences of variations per Medication calculated'
-            'with the Damerau-Levenshtein ',
-            'Damerau-Levenshtein score', 
-            'Occurence of medication (normalized by unity)')
+			'Occurences of variations per Medication calculated' \ 
+			'with the Damerau-Levenshtein ',
+			'Damerau-Levenshtein score', 
+			'Occurence of medication (normalized by unity)')
         p2 = self.createCategoryPlot(typo_df2, TYPO_MED, sum_list2,  
-            'Occurences of variations per Medication calculated'
-            ' with the Damerau-Levenshtein ', 
-            'Damerau-Levenshtein score', 
-            'Occurence of medication (normalized by unity)')
+			'Occurences of variations per Medication calculated' \
+			' with the Damerau-Levenshtein ', 
+			'Damerau-Levenshtein score', 
+			'Occurence of medication (normalized by unity)')
         output_file(r'output_files/MedTypoDist6.html')
         save(p1)
         output_file(r'output_files/MedTypoDist5.html')
         save(p2)
         typo_df.to_csv(r'input_files/DF_CutOff.csv', sep='|', index=False)
         return
+
+### VANAF HIER
     
     def scopeMed(self, sentence, scope=5):
         """
         This function looks at the words surrounding every medication
-        in the provided text (sentence) and applies a simple version
-        of Sticky Character removal at the start.
+		in the provided text (sentence) and applies a simple version
+		of Sticky Character removal at the start.
 
-        Variables:
-            sentence = String containing text from the report
-            scope = determines the windowsize and therefore also the
-                nr. of words that will be collected
-            window = list containing all of the encountered drugs 
-                including the surrounding words (within the defined
-                scope)."""
+		Variables:
+			sentence = String containing text from the report
+			scope = determines the windowsize and therefore also the
+				nr. of words that will be collected
+			window = list containing all of the encountered drugs 
+				including the surrounding words (within the defined
+				scope)."""
         sticky_chars = r'([!#?,.:";@\-\+\\/&=$\]\[<>\'\*`â€™\(\)\d])'
         sentence = re.sub(sticky_chars, r' ', sentence)
         words = sentence.split()
@@ -900,21 +1105,21 @@ class Processing(object):
         return window
     
     def frequencyWordsInScope(self, scope=5):
-        """
-        This function creates a dataframe consisting of the
-        words surrounding the medication, within the defined scope.
-        The position relative to the medication is collected for 
-        every word in the initialized dataframe (self.df).
-        
-        Finally the list is ordered according to the word occurence
-        and the word frequency table is written to a csv file and
-        returned as output 
-        
-        Variables:
-            scope = the window size to look for words 
-            df_top_freq = pandas Dataframe consisting of 
-                the words linked to the position (relative to 
-                 the drug). """ 
+		"""
+		This function creates a dataframe consisting of the
+		words surrounding the medication, within the defined scope.
+		The position relative to the medication is collected for 
+		every word in the initialized dataframe (self.df).
+		
+		Finally the list is ordered according to the word occurence
+		and the word frequency table is written to a csv file and
+		returned as output 
+		
+		Variables:
+			scope = the window size to look for words 
+			df_top_freq = pandas Dataframe consisting of 
+				the words linked to the position (relative to 
+				 the drug). """ 
         col_list = []
         for x in range(-scope, scope+1):
             if x != 0:
@@ -943,29 +1148,29 @@ class Processing(object):
     
 
 class ValidateTypoAlgorithm(object):
-    """
-    This class is tasked with the validation of the typo correction
-    and preprocessing steps. Because the data was stratified 
-    it is required to provide the three automatically annotated 
-    samples :
-        - Medication but no typo's (df_notypo)
-        - Medication and typos    (df_typo)
-        - No medication    (df_nomed)
-    Gold standard is also required (df_gold): the performance 
-    will be evaluated according to this file.
+	"""
+	This class is tasked with the validation of the typo correction
+	and preprocessing steps. Because the data was stratified 
+	it is required to provide the three automatically annotated 
+	samples :
+		- Medication but no typo's (df_notypo)
+		- Medication and typos	(df_typo)
+		- No medication	(df_nomed)
+	Gold standard is also required (df_gold): the performance 
+	will be evaluated according to this file.
 
-    With this class the performance is calculated based 
-    on the overlap of the automatically annotated medication
-    sequence and the manually annotated medication sequence. 
-    Both sequences are first aligned before making the 
-    comparison, because the validation algorithm will otherwise
-    deem correctly extracted medication as mistakes. In order 
-    to align the sequences the medication order is first 
-    converted into a tokenized string.
+	With this class the performance is calculated based 
+	on the overlap of the automatically annotated medication
+	sequence and the manually annotated medication sequence. 
+	Both sequences are first aligned before making the 
+	comparison, because the validation algorithm will otherwise
+	deem correctly extracted medication as mistakes. In order 
+	to align the sequences the medication order is first 
+	converted into a tokenized string.
 
-    Finally, the performance is calculated both in total (for 
-     every medication) and per entry.  
-    """
+	Finally, the performance is calculated both in total (for 
+	 every medication) and per entry.  
+	"""
     def __init__(self, df_nomed, df_notypo, df_typo, df_gold):
         self.df_nomed = df_nomed
         self.df_notypo = df_notypo
@@ -1003,10 +1208,10 @@ class ValidateTypoAlgorithm(object):
     def createTokens(self):
         """
         Creates a dictionary where every med corresponds to a 
-        token (d_token_med) and vice versa (d_med_token). 
+		token (d_token_med) and vice versa (d_med_token). 
 
-        There is also a dictionary created that stores the 
-        contingency table per drug (d_med_perf). 
+		There is also a dictionary created that stores the 
+		contingency table per drug (d_med_perf). 
         """
         self.d_token_med = {np.nan : ' ', 'triamcinolon' : 'z'}
         for x in range(len(MEDICINE)):
@@ -1017,14 +1222,14 @@ class ValidateTypoAlgorithm(object):
         self.d_med_perf = {'triamcinolon' : [0, 0, 0, 0], 'methylprednisolon' : [0, 0, 0, 0]}
         for x in range(len(MEDICINE)):
             self.d_med_perf[MEDICINE[x]] = [0, 0, 0, 0] 
-        return        
+		return        
 
     def calculatePerformanceTotal(self):
-        """ 
-        Calculate the number of matches of the stratified sample 
-        (3 parts: df_nomed, df_notypo and df_typo) with the gold 
-        standard. 
-        """
+		""" 
+		Calculate the number of matches of the stratified sample 
+		(3 parts: df_nomed, df_notypo and df_typo) with the gold 
+		standard. 
+		"""
         self.total_med = 0
         self.df_mismatches = pd.DataFrame(columns=self.col_list)
         self.performance = {'true_pos' : 0, 'true_neg': 0, 'false_pos': 0, 'false_neg': 0}
@@ -1044,41 +1249,41 @@ class ValidateTypoAlgorithm(object):
         return l_meds
     
     def calculateMatchesSample(self, df):
-        """
-        This function loops through all of the rows in the dataframe
-        and matches the extracted drugs with the drugs found in the 
-        gold standard. 
+		"""
+		This function loops through all of the rows in the dataframe
+		and matches the extracted drugs with the drugs found in the 
+		gold standard. 
 
-        Variables:
-            df = dataframe. Either one of three samples: 
-                - Medication but no typo's 
-                - Medication and typos
-                - No medication
-            l_meds = list of drugs found in the free text field
-        """
+		Variables:
+			df = dataframe. Either one of three samples: 
+				- Medication but no typo's 
+				- Medication and typos
+				- No medication
+			l_meds = list of drugs found in the free text field
+		"""
         for ix, row in df.iterrows():
             l_meds = self.listMeds(row['XANTWOORD'])
             self.matchWithGold(l_meds, ix)
         return
     
     def exceptionsGold(self, ix, med_cols):
-        """
-        This function corrects all of the typos made in the 
-        gold standard. An index is provided to the function, 
-        this index is used to attain the row from the dataframe. 
-        If the selected row contains any of the items in the
-        dictionary then the item is changed with the value provided
-        by the dictionary.
+		"""
+		This function corrects all of the typos made in the 
+		gold standard. An index is provided to the function, 
+		this index is used to attain the row from the dataframe. 
+		If the selected row contains any of the items in the
+		dictionary then the item is changed with the value provided
+		by the dictionary.
 
 
-        Variables:
-            ix = index in the gold standard Dataframe (df_gold)            
-            gold_meds = row from the gold standard Dataframe
-                (df_gold)
-            d_exception = dictionary with the initial items 
-                (that should be converted) as keys and the 
-                corresponding (corrected) values
-        """ 
+		Variables:
+			ix = index in the gold standard Dataframe (df_gold)			
+			gold_meds = row from the gold standard Dataframe
+				(df_gold)
+			d_exception = dictionary with the initial items 
+				(that should be converted) as keys and the 
+				corresponding (corrected) values
+		""" 
         # Group names not taken into account
         # d_exception -> handle with the typos in the gold standard 
         # The Gold standard must be perfect
@@ -1117,7 +1322,7 @@ class ValidateTypoAlgorithm(object):
         dataframe with the mismatches (df_mismatches) is updated
         aswell. 
         
-        Variables:
+		Variables:
         ix = index of the row
         l_meds = list of medication 
         gold_meds - meds according to golden standard
@@ -1152,19 +1357,15 @@ class ValidateTypoAlgorithm(object):
                 new_meds.extend([np.nan]*(scope-len(new_meds)))
             self.determineDifferences(new_meds, ix, gold_meds)
             self.calculatePerformanceLine(str_med, str_gold)
-            mismatch_row = [ix,  self.df_gold.loc[ix]['XANTWOORD'], 
-                            str(l_meds)]
+            mismatch_row = [ix,  self.df_gold.loc[ix]['XANTWOORD'], str(l_meds)]
             mismatch_row.extend(gold_meds)
-            mismatch_row.append(self.calculateLocalPerformance(
-                    old_performance))
-            #print(str_med, new_string, str_gold, str(self.calculateLocalPerformance(old_performance)))
-            mismatch = pd.DataFrame([mismatch_row], 
-                    columns=list(self.df_mismatches.columns.values))
-            self.df_mismatches = self.df_mismatches.append(mismatch, 
-                    ignore_index=True)
+            mismatch_row.append(self.calculateLocalPerformance(old_performance))
+            print(str_med, new_string, str_gold, str(self.calculateLocalPerformance(old_performance)))
+            mismatch = pd.DataFrame([mismatch_row], columns=list(self.df_mismatches.columns.values))
+            self.df_mismatches = self.df_mismatches.append(mismatch, ignore_index=True)
         elif str_med != '' and str_gold != '' :
             for x in range(len(str_med)):
-                self.d_med_perf[l_meds[x]][0] = self.d_med_perf[l_meds[x]][0]+1
+                self.d_med_perf[l_meds[x]][0] = self.d_med_perf[l_meds[x]][0] + 1
                 self.performance['true_pos'] += 1
             self.perf_line['true_pos'] += 1
         else :
@@ -1202,8 +1403,7 @@ class ValidateTypoAlgorithm(object):
         """
         Calculates the levenshtein score, which is the total sum of
         substitutions, insertions, deletions and (small) transpositions.
-        https://www.guyrutenberg.com/2008/12/15/damerau-levenshtein-
-            distance-in-python/
+        https://www.guyrutenberg.com/2008/12/15/damerau-levenshtein-distance-in-python/
         """
         s = ' ' + s
         t = ' ' + t
@@ -1363,24 +1563,24 @@ class ValidateTypoAlgorithm(object):
         return
     
     def calculateLocalPerformance(self, old_perf):
-        """
-        This function calculates the nr. of true- & false positives 
-        and true- & false negatives of a single entry. This is 
-        achieved by assessing the difference between the initial 
-        performance stats (old_perf) and the current 
-        performance stats (self.perfomance). 
-        
-        A string (stri_perf) containing all of the performance 
-        stats is finally returned as output. 
-        
-        Variables: 
-            old_perf = dictionary with the initial performance stats
-                including true & false positives and the true & false
-                negatives
-            perf = dictionary consisting of the most recent 
-                performance stats including true & false positives
-                 and the true & false negatives 
-        """
+		"""
+		This function calculates the nr. of true- & false positives 
+		and true- & false negatives of a single entry. This is 
+		achieved by assessing the difference between the initial 
+		performance stats (old_perf) and the current 
+		performance stats (self.perfomance). 
+		
+		A string (stri_perf) containing all of the performance 
+		stats is finally returned as output. 
+		
+		Variables: 
+			old_perf = dictionary with the initial performance stats
+				including true & false positives and the true & false
+				negatives
+			perf = dictionary consisting of the most recent 
+				performance stats including true & false positives
+				 and the true & false negatives 
+		"""
         perf = self.performance
         stri_perf = "true pos: " + str(int(perf['true_pos']) - int(old_perf['true_pos']))
         stri_perf += "| false pos: " + str(int(perf['false_pos']) - int(old_perf['false_pos']))
@@ -1392,17 +1592,17 @@ class ValidateTypoAlgorithm(object):
 class ContextProcessing(object):
     """
     Input: df (dataframe) -> context exploration or test set
-    
-    This class is tasked with processing the reports and extracting
-    the relevant features. This class utilizes pyContext to achieve this.
-    
-    Variables:
-        modifiers = list of possible modifiers a.k.a. 
-            trigger terms that are related to the
-            target. For example: strength of the drug (12.5 mg) or a 
-            negation indicator (no or not or stop).
-        targets = list of possible targets (provided 
-            from a yml file) For example: Methotrexaat
+	
+	This class is tasked with processing the reports and extracting
+	the relevant features. This class utilizes pyContext to achieve this.
+	
+	Variables:
+		modifiers = list of possible modifiers a.k.a. 
+			trigger terms that are related to the
+			target. For example: strength of the drug (12.5 mg) or a 
+			negation indicator (no or not or stop).
+		targets = list of possible targets (provided 
+			from a yml file) For example: Methotrexaat
     """
     
     def __init__(self, path_mod='../corpus/modifiersNL.yml', \
@@ -1433,16 +1633,16 @@ class ContextProcessing(object):
     def getDimensionalTriggers(self):
         """
         This function composes a dictionary of triggers and links
-         them to the associated higher dimensional 
-        category. 
+		 them to the associated higher dimensional 
+		category. 
 
-        The triggers are at a later point utilized in regular 
-        expressions to convert synonyms to a similar & standardized
-        category.
-        
-        For example: 
-            Staken, gestaakt and gestopt will all be translated 
-            to the category Stop  
+		The triggers are at a later point utilized in regular 
+		expressions to convert synonyms to a similar & standardized
+		category.
+		
+		For example: 
+			Staken, gestaakt and gestopt will all be translated 
+			to the category Stop  
         """
         d = {}
         d['Continue'] = ['continue', 'door', 'volhouden', 'vervolg', 
@@ -1458,14 +1658,14 @@ class ContextProcessing(object):
         return d
         
     def setModifiers(self, path_mod, path_tar):
-        """
-        The modifiers and targets are set accordingly 
-        to the provided .yml file.
+		"""
+		The modifiers and targets are set accordingly 
+		to the provided .yml file.
 
-        Variables:
-            path_mod = path to the modifier file
-            path_tar = path to the target file 
-        """ 
+		Variables:
+			path_mod = path to the modifier file
+			path_tar = path to the target file 
+		""" 
         self.modifiers = itemData.get_items(
             path_mod, url=False)
         self.targets = itemData.get_items(
@@ -1474,28 +1674,28 @@ class ContextProcessing(object):
     
     def markup_sentence(self, s, prune_inactive=True):
         """
-        This function is concerned with marking the targets and
-        modifiers as well as entity linking and relation extraction.
-        Firstly, the object is called and the text of the report is 
-        provided with setRawText(). This text is then cleaned with 
-        cleanText(). Both the modifiers and targets are then marked
+		This function is concerned with marking the targets and
+		modifiers as well as entity linking and relation extraction.
+		Firstly, the object is called and the text of the report is 
+		provided with setRawText(). This text is then cleaned with 
+		cleanText(). Both the modifiers and targets are then marked
 
-        Once the modifiers & targets are marked two pruning steps 
-        are utilized:
-            1. pruneMarks()
-                modifiers that overlap with other modifiers
-                are pruned. The modifiers that cover the largest
-                portion of text are kept.
-            2. pruneModifierRelationships()
-                prunes modifiers that are linked to multiple 
-                targets at once by only allowing the modifiers
-                to be linked with the closest target.
-            3. pruneSelfModifyingRelationships()
-                modifiers that are also part of the target are 
-                pruned. So a modifier inside a target is unable
-                to modify itself. 
-        Finally all of the inactive modifiers (modifiers without
-        a target) are removed from the markup object.
+		Once the modifiers & targets are marked two pruning steps 
+		are utilized:
+			1. pruneMarks()
+				modifiers that overlap with other modifiers
+				are pruned. The modifiers that cover the largest
+				portion of text are kept.
+			2. pruneModifierRelationships()
+				prunes modifiers that are linked to multiple 
+				targets at once by only allowing the modifiers
+				to be linked with the closest target.
+			3. pruneSelfModifyingRelationships()
+				modifiers that are also part of the target are 
+				pruned. So a modifier inside a target is unable
+				to modify itself. 
+		Finally all of the inactive modifiers (modifiers without
+		a target) are removed from the markup object.
         """
         markup = pyConText.ConTextMarkup()
         markup.setRawText(s)
@@ -1519,8 +1719,8 @@ class ContextProcessing(object):
         """
         Checks whether a value equals Nan
 
-        Variables:
-            val = value to be checked
+		Variables:
+			val = value to be checked
         """
         if type(val) == float:
             return ''
@@ -1530,21 +1730,21 @@ class ContextProcessing(object):
     def calculateConfidence(self, df):
         """
         This function calculates the confidence for each medication
-        mentioned in the report. The measurement is based on a 
-        collection of features. By default a confidence of 0.15 is 
-        necessary for the program to recognize the mentioned drug 
-        as part of a prescription.
+		mentioned in the report. The measurement is based on a 
+		collection of features. By default a confidence of 0.15 is 
+	    necessary for the program to recognize the mentioned drug 
+		as part of a prescription.
 
-        The minimal requirements for a prescription are: 
-            - presence of a drug (0.05) 
-            - Either one of the following elements:
-                - strength
-                - indicator for continuation
-                - indicator for change
-        The confidence increases according to the number of 
-        features found. If there is a negation term near the 
-        drug than the confidence value will be negatively 
-        influenced.
+		The minimal requirements for a prescription are: 
+			- presence of a drug (0.05) 
+			- Either one of the following elements:
+				- strength
+				- indicator for continuation
+				- indicator for change
+		The confidence increases according to the number of 
+		features found. If there is a negation term near the 
+		drug than the confidence value will be negatively 
+		influenced.
         """
         conf = (0.05+0.1 * (df['strength_nr'] != None or df['strength_unit'] != None or  
                             df['continue'] == True or df['change'] == True) \
@@ -1563,32 +1763,32 @@ class ContextProcessing(object):
         return conf
     
     def generateConclusion(self, d_features, target):
-        """
-        This function generates a string conclusion based on the 
-        available features. The features are only appended if 
-        a value is found (so feature != None). If there are no
-        features at all than the conclusion is as follows:
-        'geen voorschrift' (no prescription). The same 
-        conclusion is provided in the following cases as well:
-            - Hypothetical context
-            - Confidence* below 0.15
+		"""
+		This function generates a string conclusion based on the 
+		available features. The features are only appended if 
+		a value is found (so feature != None). If there are no
+		features at all than the conclusion is as follows:
+		'geen voorschrift' (no prescription). The same 
+		conclusion is provided in the following cases as well:
+			- Hypothetical context
+			- Confidence* below 0.15
 
-        If the continuation of the drug is mentioned in the report 
-        then the conclusion 'no change' is made. (In Dutch: geen 
-        verandering). 
+		If the continuation of the drug is mentioned in the report 
+		then the conclusion 'no change' is made. (In Dutch: geen 
+		verandering). 
 
-        The final conclusion string is returned as output.
+		The final conclusion string is returned as output.
 
-        Variables:
-            d_features = dictionary consisting of all available 
-                features corresponding to 1 drug. 
-            confidence (d_features) = *The confidence is based 
-                on the number of features and is negatively influenced
-                by negation term.
-        """
+		Variables:
+			d_features = dictionary consisting of all available 
+				features corresponding to 1 drug. 
+			confidence (d_features) = *The confidence is based 
+				on the number of features and is negatively influenced
+				by negation term.
+		"""
         conclusion = '' 
-        l_features = ['operation','target','freq_nr', 'freq_unit',
-                      'strength_nr', 'strength_unit', 'route', 'duration_nr',
+        l_features = ['operation','target','freq_nr', 'freq_unit', \
+/                      'strength_nr', 'strength_unit', 'route', 'duration_nr', \
                       'duration_unit', 'dosage_nr']
         for val in l_features:
             if val != 'target':
@@ -1605,17 +1805,17 @@ class ContextProcessing(object):
         return conclusion
     
     def standardize(self, key):
-        """
-        This function is concerned with data normalization:
-        the extracted features, that imply a configuration in 
-        regard to treatment, are converted to higher dimensional 
-        categories. 
+		"""
+		This function is concerned with data normalization:
+		the extracted features, that imply a configuration in 
+		regard to treatment, are converted to higher dimensional 
+		categories. 
 
-        Conversion examples (in dutch):
-        - Voortzetten -> Continue
-        - Continueren -> Continue
-        - Zo door -> Continue
-        """
+		Conversion examples (in dutch):
+		- Voortzetten -> Continue
+		- Continueren -> Continue
+		- Zo door -> Continue
+		"""
         if key != None:
             for dimension in self.d_correct:
                 regexp = re.compile(r'|'.join(self.d_correct[dimension]))
@@ -1626,32 +1826,32 @@ class ContextProcessing(object):
             return None
     
     def fillDictionary(self, l_capture, l_labels, target):
-        """
-        This function collects all of the features associated with
-        the target (a.k.a. the drug). Only one value is allowed per
-        feature for each target. The dictionary is only updated with 
-        values that aren't equal to None or False. 
+		"""
+		This function collects all of the features associated with
+		the target (a.k.a. the drug). Only one value is allowed per
+		feature for each target. The dictionary is only updated with 
+		values that aren't equal to None or False. 
 
-        The operation (a.k.a. action) that represents any
-        configuration in the prescribed medication relative to the 
-        current medication trajectory. (for example: Start, stop, 
-        increase and decrease of dosage)
+		The operation (a.k.a. action) that represents any
+		configuration in the prescribed medication relative to the 
+		current medication trajectory. (for example: Start, stop, 
+		increase and decrease of dosage)
 
-        The Confidence is also calculated with the function 
-        calculateConfidence() and a Conclusion is assembled based
-        on the collected features with the function 
-        calculateConfidence(). Finally, the composed dictionary is
-        returned.
+		The Confidence is also calculated with the function 
+		calculateConfidence() and a Conclusion is assembled based
+		on the collected features with the function 
+		calculateConfidence(). Finally, the composed dictionary is
+		returned.
 
-        Variables:
-            l_labels = list consisting of the labels present in the
-                context of the drug. (for example: negation,
-                    strength, frequency etc..)
-            l_capture = collects the features associated with
-                the contextual labels per drug 
-                (for example: 15 mg, weekly dose)
-            target = drug of interest
-        """
+		Variables:
+			l_labels = list consisting of the labels present in the
+				context of the drug. (for example: negation,
+					strength, frequency etc..)
+			l_capture = collects the features associated with
+				the contextual labels per drug 
+				(for example: 15 mg, weekly dose)
+			target = drug of interest
+		"""
         d_features = {'freq_nr' : None, 'freq_unit' : None, 'strength_nr' : 
             None, 'strength_unit': None, 'route': None, 'operation': None, 
             'continue' : None, 'hypothetical' : None, 'change' : None,
@@ -1676,20 +1876,20 @@ class ContextProcessing(object):
         """
         This function first chunks the reports on newline and semi-
          colon characters and then processes each report with 
-        the targets and modifiers provided (processReport()).
-        The function specifies the absence of a drug, when none is
-        found.
+		the targets and modifiers provided (processReport()).
+		The function specifies the absence of a drug, when none is
+		found.
 
-        Variables:
-            l_entry = list consisting of all the features per 
-                drug.
-            lbls = list consisting of the labels present in the
-                context of the drug. (for example: negation,
-                    strength, frequency etc..)
-            l_capture = collects the features associated with
-                the contextual labels per drug 
-                (for example: 15 mg, weekly dose)
-            target = drug captured from report
+		Variables:
+			l_entry = list consisting of all the features per 
+				drug.
+			lbls = list consisting of the labels present in the
+				context of the drug. (for example: negation,
+					strength, frequency etc..)
+			l_capture = collects the features associated with
+				the contextual labels per drug 
+				(for example: 15 mg, weekly dose)
+			target = drug captured from report
         """
         l_entry = []
         lbls = []
@@ -1711,30 +1911,30 @@ class ContextProcessing(object):
         return l_entry
     
     def processReport(self, l_entry, lbls, l_capture, context, target):
-        """ 
-        This function extracts the modifiers and the targets from
-        the report. PyContext features the extracted contextual
-        labels in the category section and the extracted features
-        in the capture section.
-        
-        All of the features are collected in a dictionary with 
-        the function fillDictionary(). These features are appended
-        to the list l_entry which consists of all the drugs 
-        mentioned in the entry. An updated version of the list is
-        returned.
+		""" 
+		This function extracts the modifiers and the targets from
+		the report. PyContext features the extracted contextual
+		labels in the category section and the extracted features
+		in the capture section.
+		
+		All of the features are collected in a dictionary with 
+		the function fillDictionary(). These features are appended
+		to the list l_entry which consists of all the drugs 
+		mentioned in the entry. An updated version of the list is
+		returned.
 
-        Variables:
-            l_entry = list consisting of all the features per 
-                drug.
-            lbls = list consisting of the labels present in the
-                context of the drug. (for example: negation,
-                    strength, frequency etc..)
-            l_capture = collects the features associated with
-                the contextual labels per drug 
-                (for example: 15 mg, weekly dose)
-            context = the pyContext rule based object 
-            target = drug captured from report
-        """
+		Variables:
+			l_entry = list consisting of all the features per 
+				drug.
+			lbls = list consisting of the labels present in the
+				context of the drug. (for example: negation,
+					strength, frequency etc..)
+			l_capture = collects the features associated with
+				the contextual labels per drug 
+				(for example: 15 mg, weekly dose)
+			context = the pyContext rule based object 
+			target = drug captured from report
+		"""
         r_capture = r'<capture>\s(.*)\s</capture>'
         r_category = r'<category>\s\[\'(.*)\'\]\s</category>'
         for section in context.getSectionMarkups():
@@ -1774,14 +1974,14 @@ class ContextProcessing(object):
     def readContext(self, report, print_res=0):
         """
         Creates a context object and reads the report with
-        TextBlob. The text from the report is first converted 
-        to lowercase. All of the modifiers and targets are 
-        marked in each sentence (markup_sentence()) and 
-        are then appended to the context object. This context 
-        object is returned as output.
+		TextBlob. The text from the report is first converted 
+		to lowercase. All of the modifiers and targets are 
+		marked in each sentence (markup_sentence()) and 
+		are then appended to the context object. This context 
+		object is returned as output.
 
-        The annotation is printed to the screen 
-        if specified (print_res=1). """
+		The annotation is printed to the screen 
+		if specified (print_res=1). """
         context = pyConText.ConTextDocument()
         blob = TextBlob(report.lower())
         rslts = []
@@ -1800,10 +2000,10 @@ class ContextProcessing(object):
         This function generates a simple network plot that
         visualizes the interaction between modifiers and 
         the targets. In other words: the relation extraction & 
-        entity linking steps are exposed.
+		entity linking steps are exposed.
 
-        Variables:
-        Sentence = string / phrase to be processed 
+		Variables:
+		Sentence = string / phrase to be processed 
         """ 
         context = self.readContext(sentence)
         plt.figure(figsize=(14,14)) 

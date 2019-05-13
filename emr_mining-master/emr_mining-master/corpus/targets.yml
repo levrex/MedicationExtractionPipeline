@@ -1,6 +1,0 @@
-Comments: MTX,
-Direction: ''
-Lex: methotrexaat
-Regex: \b(mtx)\b
-Type: TARGET
-Capture: $target

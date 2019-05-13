@@ -1,0 +1,10 @@
+pattern>=3.6
+pyConTextNLP
+textblob>=0.15.2
+word_cloud
+matplotlib>=1.5.3
+numpy>=1.6.1
+pillow
+pandas>=0.22.0
+sklearn>=0.19.1
+seaborn>=0.8.1
